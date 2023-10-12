@@ -9,7 +9,7 @@ import Foundation
 
 import Foundation
 
-public struct Agent: Identifiable, Codable {
+public struct PackageAgent: Identifiable, Codable {
     public let id: String
     public let name: String
     public let description: String
@@ -22,7 +22,7 @@ public struct Agent: Identifiable, Codable {
 }
 
 public struct MyAPI {
-    public static func fetchAgents(token: String, completion: @escaping (Result<[Agent], Error>) -> Void) {
+    public static func fetchAgents(token: String, completion: @escaping (Result<[PackageAgent], Error>) -> Void) {
         let url = URL(string: "https://api.beta.superagent.sh/api/v1/agents")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -36,13 +36,13 @@ public struct MyAPI {
                     if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
                        let dataArray = json["data"] as? [[String: Any]] {
                         
-                        var agents: [Agent] = []
+                        var agents: [PackageAgent] = []
                         
                         for item in dataArray {
                             if let id = item["id"] as? String,
                                let name = item["name"] as? String,
                                let description = item["description"] as? String {
-                                let agent = Agent(id: id, name: name, description: description)
+                                let agent = PackageAgent(id: id, name: name, description: description)
                                 agents.append(agent)
                             }
                         }
